@@ -15,6 +15,15 @@ namespace PivotSecurity
             Customer.private_key = _private_key;
         }
 
+        public string CreateCustomer(string uid, string email, string channel)
+        {
+            var client = new RestClient("https://api.povotsecurity.com/api/");
+            var request = new RestRequest("customer/create");
+            client.Authenticator = new HttpBasicAuthenticator(public_key, "");
+            request.AddJsonBody("{\"uid\":\"" + uid + "\", \"email\":\"" + email + "\", \"channel\":\"" + channel + "\"}");
+            var response = client.Post(request);
+            return response.Content;
+        }
         public string AuthenticateCustomer(string uid, string email, string code)
         {
             var client = new RestClient("https://api.povotsecurity.com/api/");
